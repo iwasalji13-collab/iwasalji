@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Konsep Dasar Sejarah: Manusia, Ruang, Waktu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #2b6cb0;
+      --primary-soft: #ebf8ff;
+      --accent: #c05621;
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --text: #1a202c;
+      --muted: #718096;
+      --radius-lg: 18px;
+      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      position: relative;
+      background: radial-gradient(circle at top, #e2e8f0 0, #f7fafc 45%, #edf2f7 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* Globe / world map style background full screen */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Mercator-projection.jpg/1920px-Mercator-projection.jpg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      opacity: 0.10; /* transparansi latar */
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .app-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #f6e05e, #2b6cb0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 22px;
+      box-shadow: 0 8px 26px rgba(49, 130, 206, 0.6);
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .brand-text p {
+      margin: 2px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(43, 108, 176, 0.1);
+      color: #2c5282;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #48bb78;
+    }
+
+    .main-card {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 780px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+      border: 1px solid #e2e8f0;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #edf2f7;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .scenario-box {
+      font-size: 13px;
+      background: #f7fafc;
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+    }
+
+    .scenario-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 8px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .input-text, select {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid #cbd5e0;
+      padding: 7px 10px;
+      font-size: 13px;
+      outline: none;
+      background: #fff;
+    }
+
+    .input-text:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(43, 108, 176, 0.3);
+    }
+
+    .small {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2c5282;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #cbd5e0;
+      color: var(--muted);
+    }
+
+    .btn-outline:hover {
+      background: #edf2f7;
+    }
+
+    .feedback {
+      margin-top: 8px;
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      white-space: pre-wrap;
+    }
+
+    .feedback span.ok {
+      color: #2f855a;
+      font-weight: 600;
+    }
+
+    .feedback span.no {
+      color: #c53030;
+      font-weight: 600;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #ebf4ff;
+      color: #2c5282;
+      margin-left: 4px;
+    }
+
+    ul {
+      margin-top: 4px;
+      padding-left: 18px;
+      font-size: 13px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .token {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #edf2f7;
+      font-size: 11px;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">S</div>
+        <div class="brand-text">
+          <h1>Konsep Dasar Sejarah: Manusia, Ruang, Waktu</h1>
+          <p>Aplikasi latihan menentukan ruang, waktu, dan peristiwa dari sebuah peristiwa sejarah.</p>
+        </div>
+      </div>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Mode: Pembelajaran Sejarah – Kelas SMP
+      </div>
+    </header>
+
+    <div class="main-card">
+      <div class="grid-2">
+        <!-- KIRI: Latihan interaktif -->
+        <div class="card">
+          <div class="card-title">
+            <span>Latihan Identifikasi Peristiwa</span>
+            <span class="chip">Skor benar: <span id="score">0</span></span>
+          </div>
+          <div class="card-subtitle">
+            Bacalah narasi peristiwa sejarah di bawah ini. Kemudian tentukan <strong>ruang</strong>, <strong>waktu</strong>, dan <strong>nama peristiwa</strong>.
+          </div>
+
+          <div class="scenario-box">
+            <div class="scenario-label">Narasi Peristiwa</div>
+            <div id="event-text"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="ruang-input">Ruang (tempat terjadinya peristiwa)</label>
+            <input id="ruang-input" type="text" class="input-text" placeholder="contoh: Jakarta, Surabaya, Yogyakarta..." />
+          </div>
+
+          <div class="form-group">
+            <label for="waktu-input">Waktu (tahun atau tanggal penting)</label>
+            <input id="waktu-input" type="text" class="input-text" placeholder="contoh: 17 Agustus 1945 / 1945 / 1928..." />
+          </div>
+
+          <div class="form-group">
+            <label for="peristiwa-input">Nama peristiwa</label>
+            <input id="peristiwa-input" type="text" class="input-text" placeholder="contoh: Proklamasi Kemerdekaan Indonesia" />
+          </div>
+
+          <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+            <button id="check-btn" class="btn btn-primary">Periksa Jawaban</button>
+            <button id="new-event-btn" class="btn btn-outline">Peristiwa Baru</button>
+          </div>
+
+          <div id="feedback" class="feedback" style="margin-top:10px;">
+            Masukkan jawabanmu lalu klik <strong>Periksa Jawaban</strong> untuk melihat penjelasan.
+          </div>
+
+          <div class="hint">
+            <strong>Petunjuk:</strong> Ruang bisa berupa nama kota/daerah, waktu bisa berupa tahun atau tanggal, dan nama peristiwa biasanya dikenal dalam sejarah Indonesia.
+          </div>
+        </div>
+
+        <!-- KANAN: Penjelasan konsep -->
+        <div class="card">
+          <div class="card-title">
+            <span>Konsep Dasar Sejarah</span>
+            <span class="chip">Manusia – Ruang – Waktu</span>
+          </div>
+          <div class="card-subtitle">
+            Dalam sejarah, sebuah peristiwa selalu terkait dengan <strong>siapa</strong>, <strong>di mana</strong>, dan <strong>kapan</strong> peristiwa itu terjadi.
+          </div>
+
+          <ul>
+            <li>
+              <strong>Manusia</strong>  
+              <div class="small">
+                Pelaku atau tokoh yang terlibat dalam peristiwa sejarah. Misalnya:
+                <div>
+                  <span class="token">Soekarno</span>
+                  <span class="token">Moh. Hatta</span>
+                  <span class="token">Bung Tomo</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <strong>Ruang</strong>  
+              <div class="small">
+                Tempat terjadinya peristiwa. Bisa berupa kota, desa, negara, atau wilayah tertentu. Contoh:
+                <div>
+                  <span class="token">Jakarta</span>
+                  <span class="token">Surabaya</span>
+                  <span class="token">Yogyakarta</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <strong>Waktu</strong>  
+              <div class="small">
+                Kapan peristiwa terjadi. Bisa berupa tanggal lengkap, bulan-tahun, atau tahun. Contoh:
+                <div>
+                  <span class="token">28 Oktober 1928</span>
+                  <span class="token">17 Agustus 1945</span>
+                  <span class="token">10 November 1945</span>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <p class="hint">
+            Setelah siswa mengisi ruang dan waktu, guru dapat mengajak siswa menyebutkan <strong>tokoh (manusia)</strong> yang terkait dengan peristiwa tersebut secara lisan untuk memperkuat konsep.
+          </p>
+
+          <hr style="border:none; border-top:1px dashed #e2e8f0; margin:10px 0;" />
+
+          <div class="small">
+            💡 <strong>Ide penggunaan di kelas:</strong><br/>
+            - Guru menayangkan aplikasi di layar proyektor.<br/>
+            - Siswa menjawab secara bergiliran atau berkelompok.<br/>
+            - Setelah itu, diskusikan hubungan manusia–ruang–waktu dalam peristiwa yang sama.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Bank peristiwa sejarah (bisa kamu tambah sendiri)
+    const events = [
+      {
+        id: "proklamasi",
+        text:
+          "Pada suatu pagi di sebuah rumah di Jalan Pegangsaan Timur, para pemimpin bangsa membacakan sebuah teks penting yang menyatakan bahwa bangsa Indonesia telah berdiri sebagai negara merdeka. Peristiwa ini terjadi pada masa pendudukan Jepang yang telah berakhir.",
+        ruang: ["jakarta", "pegangsaan timur", "pegangsaan timur 56", "jakarta pusat"],
+        waktu: ["17 agustus 1945", "17-8-1945", "1945"],
+        peristiwa: ["proklamasi kemerdekaan", "proklamasi kemerdekaan indonesia", "proklamasi"],
+      },
+      {
+        id: "sumpah_pemuda",
+        text:
+          "Sekelompok pemuda dari berbagai daerah di Nusantara berkumpul dalam sebuah kongres. Di pertemuan itu, mereka mengucapkan ikrar tentang satu tanah air, satu bangsa, dan satu bahasa. Peristiwa ini menjadi tonggak penting persatuan Indonesia.",
+        ruang: ["batavia", "jakarta", "weltevreden"],
+        waktu: ["28 oktober 1928", "28-10-1928", "1928"],
+        peristiwa: ["sumpah pemuda", "kongres pemuda ii", "ikrar sumpah pemuda"],
+      },
+      {
+        id: "10_november",
+        text:
+          "Di sebuah kota pelabuhan di Jawa Timur, terjadi pertempuran besar antara pejuang Indonesia dan tentara Inggris. Peristiwa ini dimulai setelah gugurnya seorang jenderal Inggris dan menjadi simbol keberanian arek-arek pejuang di kota tersebut.",
+        ruang: ["surabaya", "kota surabaya"],
+        waktu: ["10 november 1945", "10-11-1945", "1945"],
+        peristiwa: ["pertempuran 10 november", "hari pahlawan", "pertempuran surabaya"],
+      },
+      {
+        id: "kongres_perempuan",
+        text:
+          "Di sebuah kota di Jawa Tengah, para tokoh perempuan dari berbagai organisasi berkumpul dalam sebuah kongres untuk membahas kedudukan perempuan dan perannya dalam perjuangan bangsa. Kongres ini menjadi awal kebangkitan gerakan perempuan Indonesia.",
+        ruang: ["yogyakarta", "yogya"],
+        waktu: ["22 desember 1928", "1928"],
+        peristiwa: ["kongres perempuan indonesia", "kongres perempuan i", "kongres perempuan pertama"],
+      },
+      {
+        id: "reformasi",
+        text:
+          "Gelombang demonstrasi mahasiswa dan masyarakat terjadi di berbagai kota di Indonesia. Mereka menuntut perubahan besar dalam pemerintahan dan kehidupan politik setelah krisis ekonomi melanda Asia. Di ibu kota, gedung parlemen dipenuhi demonstran yang menyuarakan reformasi.",
+        ruang: ["jakarta", "gedung mpr/dpr", "senayan"],
+        waktu: ["1998", "mei 1998"],
+        peristiwa: ["reformasi 1998", "gerakan reformasi", "reformasi"],
+      }
+    ];
+
+    let currentEvent = null;
+    let score = 0;
+
+    const eventTextEl = document.getElementById("event-text");
+    const ruangInput = document.getElementById("ruang-input");
+    const waktuInput = document.getElementById("waktu-input");
+    const peristiwaInput = document.getElementById("peristiwa-input");
+    const feedbackEl = document.getElementById("feedback");
+    const scoreEl = document.getElementById("score");
+    const checkBtn = document.getElementById("check-btn");
+    const newEventBtn = document.getElementById("new-event-btn");
+
+    function pickRandomEvent() {
+      const random = events[Math.floor(Math.random() * events.length)];
+      currentEvent = random;
+      eventTextEl.textContent = random.text;
+      ruangInput.value = "";
+      waktuInput.value = "";
+      peristiwaInput.value = "";
+      feedbackEl.textContent = "Masukkan jawabanmu lalu klik \"Periksa Jawaban\" untuk melihat penjelasan.";
+    }
+
+    function normalize(str) {
+      return str
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ");
+    }
+
+    function checkAnswer() {
+      if (!currentEvent) return;
+
+      const ruangAns = normalize(ruangInput.value);
+      const waktuAns = normalize(waktuInput.value);
+      const peristiwaAns = normalize(peristiwaInput.value);
+
+      let ruangCorrect = false;
+      let waktuCorrect = false;
+      let peristiwaCorrect = false;
+
+      if (ruangAns) {
+        ruangCorrect = currentEvent.ruang.some((r) =>
+          ruangAns.includes(r) || r.includes(ruangAns)
+        );
+      }
+
+      if (waktuAns) {
+        waktuCorrect = currentEvent.waktu.some((w) =>
+          waktuAns.includes(w) || w.includes(waktuAns)
+        );
+      }
+
+      if (peristiwaAns) {
+        peristiwaCorrect = currentEvent.peristiwa.some((p) =>
+          peristiwaAns.includes(p) || p.includes(peristiwaAns)
+        );
+      }
+
+      let gained = 0;
+      if (ruangCorrect) gained++;
+      if (waktuCorrect) gained++;
+      if (peristiwaCorrect) gained++;
+      if (gained === 3) {
+        score += 1;
+        scoreEl.textContent = score;
+      }
+
+      const ruangInfo =
+        `Ruang (tempat): ` +
+        (ruangCorrect
+          ? `<span class="ok">✔ Benar</span>`
+          : `<span class="no">✘ Belum tepat</span>`) +
+        `\nJawaban benar yang diharapkan, misalnya: ${currentEvent.ruang[0]}`;
+
+      const waktuInfo =
+        `Waktu: ` +
+        (waktuCorrect
+          ? `<span class="ok">✔ Benar</span>`
+          : `<span class="no">✘ Belum tepat</span>`) +
+        `\nContoh jawaban yang benar: ${currentEvent.waktu[0]}`;
+
+      const peristiwaInfo =
+        `Nama peristiwa: ` +
+        (peristiwaCorrect
+          ? `<span class="ok">✔ Benar</span>`
+          : `<span class="no">✘ Belum tepat</span>`) +
+        `\nContoh nama peristiwa: ${currentEvent.peristiwa[0]}`;
+
+      feedbackEl.innerHTML =
+        ruangInfo +
+        "\n\n" +
+        waktuInfo +
+        "\n\n" +
+        peristiwaInfo +
+        "\n\n<b>Catatan:</b> Dalam sejarah, satu peristiwa selalu berkaitan erat dengan ruang (di mana), waktu (kapan), dan peristiwanya sendiri (apa yang terjadi). Guru dapat melanjutkan dengan menanyakan siapa saja tokoh yang terlibat (manusia).";
+    }
+
+    checkBtn.addEventListener("click", checkAnswer);
+    newEventBtn.addEventListener("click", pickRandomEvent);
+
+    // Inisialisasi pertama
+    pickRandomEvent();
+  </script>
+</body>
+</html>
